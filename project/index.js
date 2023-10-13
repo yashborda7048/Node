@@ -29,6 +29,8 @@ const server = http.createServer((req, res) => {
     res.end("Hello Create your local server.");
   } else if (req.url == "/about") {
     res.end("<h1> about us. </h1>");
+  } else if (req.url == "/contact") {
+    res.end("<h1> contact us. </h1>");
   } else if (req.url == "/user") {
       res.writeHead(200, { "Content-type": "application/json" });
 
