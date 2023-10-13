@@ -10,7 +10,7 @@ mongoose
     console.log(err);
   });
 
-const userSchema = new mongoose.Schema({
+const technologySchema = new mongoose.Schema({
   name: {
     type: String,
     require: true,
@@ -25,18 +25,42 @@ const userSchema = new mongoose.Schema({
 });
 
 // collection create
-const User = new mongoose.model("User", userSchema);
+const Technology = new mongoose.model("Technology", technologySchema);
 
 // create document or insert
 const createDocument = async () => {
   try {
-    const userData = new User({
-      name: "yash",
-      ctype: "developer",
-      videos: 0,
+    const JSData = new Technology({
+      name: "JS",
+      ctype: "Front end",
       active: true,
     });
-    const result = await userData.save();
+
+    const VueData = new Technology({
+      name: "Vue",
+      ctype: "Front end",
+      active: true,
+    });
+
+    const FigmaData = new Technology({
+      name: "Figma",
+      ctype: "Front end",
+      active: true,
+    });
+
+    const MongoData = new Technology({
+      name: "Mongo DB",
+      ctype: "Database",
+      active: true,
+    });
+
+    const result = await Technology.insertMany([
+      JSData,
+      VueData,
+      FigmaData,
+      MongoData,
+    ]);
+    
     console.log(result, "result");
   } catch (err) {
     console.log(err, "err");
