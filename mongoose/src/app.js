@@ -76,13 +76,26 @@ const Technology = new mongoose.model("Technology", technologySchema);
 const getDocument = async () => {
   try {
     const result = await Technology
-      // .find({ ctype: { $eq: "Front end" } }) // only get match to "Front end"
-      // .find({ctype: "Front end"}) // only get match to "Front end"
+    // .find({ctype: "Front end"}) // only get match to "Front end"
+    .find({ ctype: { $eq: "Back end" } }) // only get match to "Front end"
       // .find({videos: {$gt : 50}}) // only get greater than 50
       // .find({ videos: { $gte: 50 } }) // only get greater than 50
       // .find({ ctype: { $in: ['Back end', 'Database'] }}) // only get type in [Back end, Database] 
-      .find({ ctype: { $nin: ['Back end', 'Database'] }}) // only get type in not [Back end, Database] 
-      .select({ name: 1 }); // only show {id, name}
+      // .find({$or : [
+      //   {ctype: "Database"},
+      //   {active: true}
+      // ]}) // only get that data in type is 'Database' and active is true
+      // .find({$and : [
+      //   {ctype: "Database"},
+      //   {active: true}
+      // ]}) // only get that data in not type is 'Database' and active is true
+      // .find({$nor : [
+      //   {ctype: "Database"},
+      //   {active: true}
+      // ]}) // only get that data in not type is 'Database' and active is true
+
+      .select({ name: 1 }) // only show {id, name}
+      .countDocuments()
     // .limit(1);  // only show first data
     console.log(result, "find");
   } catch (err) {
@@ -90,4 +103,4 @@ const getDocument = async () => {
   }
 };
 
-// getDocument();
+getDocument();
