@@ -67,4 +67,17 @@ const createDocument = async () => {
   }
 };
 
-createDocument();
+// createDocument();
+
+const getDocument = async () => {
+  try {
+    const result = await Technology.find({ctype: "Front end"})
+    .select({name: 1})  // only show {id, name}
+    .limit(1);  // only show first data
+    console.log(result, "result");
+  } catch(err) {
+    console.log(err, "err");
+  }
+}
+
+getDocument();
