@@ -8,6 +8,4 @@
 // 6: now delete both the file and the folder.
 
 // const fs = require('fs');
-
 // fs.mkdirSync("fsAsync");
-
