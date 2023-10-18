@@ -13,10 +13,37 @@ mongoose
 const technologySchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
+    //   //  unique: true,
+    //   //  uppercase: true,
+    //   //  trim: true,
+    //   //  minlength: [2, "minimum 2 letters"],
+    //   //  maxlength: 30,
   },
-  ctype: String,
-  videos: Number,
+  ctype: {
+    type: String,
+    required: true,
+    // enum: ["Front end", "Back end", "Database"]
+  },
+  videos: {
+    type: Number,
+    max: 300,
+    max: 0,
+    validate: {
+      // // first method (recommended use this)
+      validator: function(value) {
+          return value.length < 0
+      },
+      message: "videos count should not be negative",
+      
+       // // second method
+      // validator: function(value) {
+      //   if (value < 0) {
+      //       throw new Error("videos count should not be negative");
+      //   }
+      // },
+    } 
+  },
   active: Boolean,
   date: {
     type: Date,
@@ -28,8 +55,8 @@ const technologySchema = new mongoose.Schema({
 const Technology = new mongoose.model("Technology", technologySchema);
 
 // create document or insert
-// const createDocument = async () => {
-//   try {
+const createDocument = async () => {
+  try {
 //     const JSData = new Technology({
 //       name: "JS",
 //       ctype: "Back end",
@@ -58,20 +85,28 @@ const Technology = new mongoose.model("Technology", technologySchema);
 //       active: true,
 //     });
 
-//     const result = await Technology.insertMany([
-//       JSData,
-//       VueData,
-//       FigmaData,
-//       MongoData,
-//     ]);
+    const ValidationData = new Technology({
+      name: "Testing",
+      ctype: "Database",
+      videos: -5,
+      active: false,
+    });
 
-//     // console.log(result, "result");
-//   } catch (err) {
-//     console.log(err, "err");
-//   }
-// };
+    const result = await Technology.insertMany([
+      // JSData,
+      // VueData,
+      // FigmaData,
+      // MongoData,
+      ValidationData,
+    ]);
 
-// createDocument();
+    console.log(result, "result");
+  } catch (err) {
+    console.log(err, "err");
+  }
+};
+
+createDocument();
 
 const getDocument = async () => {
   try {
@@ -108,7 +143,7 @@ const getDocument = async () => {
 const updateDocument = async (id) => {
   try {
     const result = await Technology.findByIdAndUpdate(
-      { _id: id},
+      { _id: id },
       {
         $set: {
           name: "Javascript",
@@ -129,13 +164,11 @@ const updateDocument = async (id) => {
 
 const deleteDocument = async (_id) => {
   try {
-    const result = await Technology.findOneAndDelete(
-      {_id}, 
-    )
+    const result = await Technology.findOneAndDelete({ _id });
     console.log(result, "result");
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
-}
+};
 
-// deleteDocument("652ca198e17ec49ead0eea46"); // delete "Javascript" data 
+// deleteDocument("652ca198e17ec49ead0eea46"); // delete "Javascript" data
