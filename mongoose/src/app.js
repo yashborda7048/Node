@@ -76,11 +76,11 @@ const Technology = new mongoose.model("Technology", technologySchema);
 const getDocument = async () => {
   try {
     const result = await Technology
-    // .find({ctype: "Front end"}) // only get match to "Front end"
-    .find({ ctype: { $eq: "Back end" } }) // only get match to "Front end"
+      // .find({ctype: "Front end"}) // only get match to "Front end"
+      .find({ ctype: { $eq: "Back end" } }) // only get match to "Front end"
       // .find({videos: {$gt : 50}}) // only get greater than 50
       // .find({ videos: { $gte: 50 } }) // only get greater than 50
-      // .find({ ctype: { $in: ['Back end', 'Database'] }}) // only get type in [Back end, Database] 
+      // .find({ ctype: { $in: ['Back end', 'Database'] }}) // only get type in [Back end, Database]
       // .find({$or : [
       //   {ctype: "Database"},
       //   {active: true}
@@ -95,7 +95,7 @@ const getDocument = async () => {
       // ]}) // only get that data in not type is 'Database' and active is true
 
       .select({ name: 1 }) // only show {id, name}
-      .countDocuments()
+      .countDocuments();
     // .limit(1);  // only show first data
     console.log(result, "find");
   } catch (err) {
@@ -103,4 +103,39 @@ const getDocument = async () => {
   }
 };
 
-getDocument();
+// getDocument();
+
+const updateDocument = async (id) => {
+  try {
+    const result = await Technology.findByIdAndUpdate(
+      { _id: id},
+      {
+        $set: {
+          name: "Javascript",
+        },
+      },
+      {
+        new: true, // for new updated data show in result "Javascript Testing"
+        useFindAndModify: false,
+      }
+    );
+    console.log(result, "result");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// updateDocument("652ca198e17ec49ead0eea46");
+
+const deleteDocument = async (_id) => {
+  try {
+    const result = await Technology.findOneAndDelete(
+      {_id}, 
+    )
+    console.log(result, "result");
+  } catch(err) {
+    console.log(err);
+  }
+}
+
+// deleteDocument("652ca198e17ec49ead0eea46"); // delete "Javascript" data 
